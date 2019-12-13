@@ -3,7 +3,9 @@
            https://api.github.com/users/<your name>
 */
 
-axios.get('https://api.github.com/users/DarneaPinkett').then((res) => console.log(res));
+
+
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -15,6 +17,8 @@ axios.get('https://api.github.com/users/DarneaPinkett').then((res) => console.lo
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
+
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -28,9 +32,17 @@ axios.get('https://api.github.com/users/DarneaPinkett').then((res) => console.lo
 
 const followersArray = [];
 
-function cardCreator(user) {
-  const userImg = document.createElement
-}
+axios.get("https://api.github.com/users/DarneaPinkett/followers")
+.then(res =>{
+  res.data.forEach(element => {
+    const friends = create(element);
+    cards.appendChild(friends);
+  })
+  .catch(err => {
+    alert("Out of Order");
+  })
+})
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -59,6 +71,15 @@ function cardCreator(user) {
   luishrd
   bigknell
 */
+axios.get('https://api.github.com/users/DarneaPinkett').then(res =>{
+  const data = res.data;
+  const cardInfo = create(data);
+  cards.appendChild(cardInfo)
+  console.log(res);
+})
+.catch(err => {
+  console.log("You hit an error", err);
+})
 
 const cards = document.querySelector('.cards');
 
@@ -75,9 +96,9 @@ function create(obj) {
   const paragraph5 = document.createElement('p');
   const paragraph6 = document.createElement('p');
   
-  cards.appendChild(card1);
-  cards.appendChild(mainImg);
-  cards.appendChild(cardInfo);
+
+  card1.appendChild(mainImg);
+  card1.appendChild(cardInfo);
   cardInfo.appendChild(h3);
   cardInfo.appendChild(paragraph1);
   cardInfo.appendChild(paragraph2);
@@ -92,7 +113,17 @@ function create(obj) {
   h3.classList.add('name');
   paragraph1.classList.add('username');
 
+  mainImg.src = obj.avatar_url;
+  h3.textContent = obj.login;
+  paragraph1.textContent = obj.login;
+  paragraph2.textContent = obj.Location;
+  paragraph3.textContent = "Profile:";
+  address.href = obj.url;
+  paragraph4.textContent = obj.followers;
+  paragraph5.textContent = obj.following;
+  paragraph6.textContent = obj.bio;
 
-  return cards;
+
+  return card1;
 }
 console.log(create())
